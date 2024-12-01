@@ -1,3 +1,4 @@
+/// <reference types="vitest/config" />
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
@@ -15,5 +16,11 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
+  },
+  test: {
+    globals: true, // Enable global test functions like 'describe', 'it', etc.
+    environment: 'jsdom', // Use jsdom environment for simulating a browser
+    setupFiles: './src/test/setup.ts',
+    css: true,
   },
 });
