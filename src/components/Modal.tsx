@@ -1,8 +1,8 @@
-import { useEffect } from "react";
-import ReactDOM from "react-dom";
-import logo from "../assets/close.svg";
-import { Button } from "./Button";
-import { IconButton } from "./IconButton";
+import { useEffect } from 'react';
+import ReactDOM from 'react-dom';
+
+import logo from '../assets/close.svg';
+import { IconButton } from './IconButton';
 
 interface ModalProps {
   title: string;
@@ -18,16 +18,16 @@ interface ModalProps {
  * @returns
  */
 export const Modal = ({ title, visible, onClose, content }: ModalProps) => {
-  const modalRoot = document.getElementById("modal-root");
+  const modalRoot = document.getElementById('root-portal');
 
   useEffect(() => {
     if (visible) {
-      document.body.style.overflow = "hidden";
+      document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     }
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.style.overflow = 'auto';
     };
   }, [visible]);
 
@@ -36,14 +36,14 @@ export const Modal = ({ title, visible, onClose, content }: ModalProps) => {
   return (
     modalRoot && // check if root html exists
     ReactDOM.createPortal(
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
         <div className="bg-white w-full max-w-lg mx-auto rounded-lg shadow-lg p-4 text-center">
           {/* Content */}
           <div className="flex relative text-mobile-sm md:text-desktop-sm font-bold mb-4 justify-center">
             {title}
             <div className="absolute right-0">
               <IconButton onClick={onClose}>
-                <img className={"w-4 md:w-6"} src={logo} alt="React logo" />
+                <img className={'w-4 md:w-6'} src={logo} alt="React logo" />
               </IconButton>
             </div>
           </div>

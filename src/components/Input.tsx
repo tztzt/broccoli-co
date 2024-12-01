@@ -16,11 +16,16 @@ export const Input = ({
   required,
   error,
 }: InputProps) => {
+  const defaultInput = "w-full p-3 rounded-lg ";
+  const color = error
+    ? "border border-red-300"
+    : "border border-gray-300 focus:outline-none focus:ring-1 focus:ring-gray-500";
+
   return (
     <div>
       {label && <label htmlFor={fieldName}>{label}:&nbsp;</label>}
       <input
-        className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-500"
+        className={defaultInput + color}
         type={fieldName}
         id={fieldName}
         name={label}
