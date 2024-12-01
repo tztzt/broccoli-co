@@ -61,12 +61,10 @@ export const UserEmailForm = ({
     const requestParams: PostRequestInvite = { name, email };
     await submitRequestInvite(requestParams)
       .then((resp) => {
-        console.log('Success: ', resp);
         handleSuccess();
         return resp;
       })
       .catch((e) => {
-        console.error(e.message);
         handleError(true, e.message);
       })
       .finally(() => {

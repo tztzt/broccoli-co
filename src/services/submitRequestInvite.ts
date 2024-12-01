@@ -1,25 +1,27 @@
 import { PostRequestInvite } from '../types';
 
-// const AWX_ENDPOINT =
-// 'https://l94wc2001h.execute-api.ap-southeast-2.amazonaws.com/api/prod/fake-auths';
+enum NetworkResponseCode {
+  SUCCESS = 200,
+  BAD_REQUEST = 400,
+}
+
 const AWX_ENDPOINT = '/api/prod/fake-auth';
+
 export const submitRequestInvite = async (data: PostRequestInvite) => {
   const api = AWX_ENDPOINT;
-  return fetch(api, {
+  return await fetch(api, {
     method: 'POST',
     mode: 'no-cors',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('Submit user info success: ', data);
-      return data;
-    })
-    .catch((error) => {
-      console.error('There was a problem with the operation:', error);
-      throw new Error(error);
-    });
+  }).then(async (response) => {
+    if (response.ok) return response.json();
+    const { errorMessage } = await response.json();
+    const error = errorMessage ?? `HTTP error! Status: ${response.status}`;
+    throw new Error(error);
+  });
 };
+
+//usedemail@airwallex.com
