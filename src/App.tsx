@@ -1,5 +1,6 @@
 import "./App.css";
 import { Footer, Header } from "./components";
+import { SubscribeInvitation } from "./pages/Subscribe";
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
 
       {/* Main Content */}
       <main className="flex-grow bg-gray-100 content-center">
-        {/* <SubscribeInvitation /> */}
+        <SubscribeInvitation />
       </main>
 
       <Footer />
