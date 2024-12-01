@@ -1,25 +1,39 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
-import logo from '../assets/close.svg';
+import icon from '../assets/close.svg';
 import { IconButton } from './IconButton';
 
 interface ModalProps {
+  // The title text displayed in the modal header
   title: string;
+  // Determines whether the modal is visible or hidden.
   visible: boolean;
-  onClose: () => void;
+  // Callback function invoked when the modal is closed.
+  onClose?: () => void;
+  // The content to be displayed in the modal body.
   content: string | React.ReactElement;
 }
 
 /**
- * Basic Modal component that accepts a visiblity prop,
+ * A reusable modal component that displays a dialog with a title, content,
+ * and an optional close button. The modal's visibility is controlled via the `visible` prop.
+ * The modal also includes smooth fade-in and fade-out animations during visibility changes.
  *
- * @param param @link[ModalProps}
- * @returns
+ * When the modal becomes visible, the body overflow is set to 'hidden' to prevent scrolling,
+ * and it is restored to 'auto' when the modal is hidden.
+ *
+ * The modal is rendered using React Portals to ensure it is rendered outside the root DOM hierarchy,
+ * and it supports animation for smooth transitions.
+ *
+ * @returns {JSX.Element | null} Returns a JSX element representing the modal if `visible` is true,
+ * or `null` if `visible` is false, effectively hiding the modal when not needed.
  */
 export const Modal = ({ title, visible, onClose, content }: ModalProps) => {
-  const modalRoot = document.getElementById('root-portal');
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
 
+  const modalRoot = document.getElementById('root-portal');
   useEffect(() => {
     if (visible) {
       document.body.style.overflow = 'hidden';
@@ -31,20 +45,42 @@ export const Modal = ({ title, visible, onClose, content }: ModalProps) => {
     };
   }, [visible]);
 
-  if (!visible) return null;
+  useEffect(() => {
+    if (visible) {
+      setShouldRender(true); // Start rendering the toast
+      const timer = setTimeout(() => setIsAnimating(true), 100); // Delay animate
+      return () => clearTimeout(timer); // Cleanup timer
+    } else {
+      setIsAnimating(false); // Begin animation (fade-out)
+      const timer = setTimeout(() => setShouldRender(false), 300); // Delay unmount
+      return () => clearTimeout(timer); // Cleanup timer
+    }
+  }, [onClose, visible]);
+
+  if (!shouldRender || !modalRoot) return null;
 
   return (
-    modalRoot && // check if root html exists
+    modalRoot &&
     ReactDOM.createPortal(
-      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40">
-        <div className="bg-white w-full max-w-lg mx-auto rounded-lg shadow-lg p-4 text-center">
-          {/* Content */}
-          <div className="flex relative text-mobile-sm md:text-desktop-sm font-bold mb-4 justify-center">
+      <div
+        className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-40 duration-200 ${
+          isAnimating ? 'opacity-100' : 'opacity-0 invisible'
+        }
+          `}
+      >
+        <div
+          className={`bg-white w-full max-w-lg mx-auto rounded-lg shadow-lg p-4 text-center duration-200 ${
+            isAnimating ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
+          }`}
+        >
+          <div className="flex relative text-mobile-md md:text-desktop-md font-bold mb-4 justify-center">
             {title}
-            <div className="absolute right-0">
-              <IconButton onClick={onClose}>
-                <img className={'w-4 md:w-6'} src={logo} alt="React logo" />
-              </IconButton>
+            <div className="absolute right-0 text-black">
+              {onClose && (
+                <IconButton onClick={onClose}>
+                  <img src={icon} alt="Orange triangle" />
+                </IconButton>
+              )}
             </div>
           </div>
           <div className="p-4">{content}</div>

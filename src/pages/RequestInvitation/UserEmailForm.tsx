@@ -11,13 +11,13 @@ type ExtendedPostRequestInvite = PostRequestInvite & {
 type PartialInputFormValue = Partial<ExtendedPostRequestInvite>;
 
 interface UserEmailFormProps {
-  handleSuccess: () => void;
-  handleError: (show: boolean, message: string) => void;
+  onSuccess: () => void;
+  onSubmitError: (message: string) => void;
 }
 
 export const UserEmailForm = ({
-  handleSuccess,
-  handleError,
+  onSuccess,
+  onSubmitError,
 }: UserEmailFormProps) => {
   const [formState, setFormState] = useState<PartialInputFormValue>({});
   const [errors, setErrors] = useState<PartialInputFormValue>({});
@@ -35,47 +35,79 @@ export const UserEmailForm = ({
     setFormState((s) => ({ ...s, [field]: value }));
   };
 
-  const handleSubmit = async () => {
+  const clearState = () => {
+    setFormState({});
+    setErrors({});
+  };
+
+  const handleSuccess = () => {
+    onSuccess();
+    clearState();
+  };
+
+  const validate = () => {
     const { name, email, confirmEmail } = formState;
     const newErrors: PartialInputFormValue = {};
-    if (!name) newErrors.name = 'Name cannot be empty';
-    else if (name.length < 3) newErrors.name = 'Name is too short';
+    if (!name) newErrors.name = 'Please fill in your name';
+    else if (name.length < 3)
+      newErrors.name = 'Please ensure your name is at least 3 characters long';
 
     const emailRegexCheck = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-    if (!email) newErrors.email = 'Email cannot be empty';
+    if (!email) newErrors.email = 'Please fill in your email';
     else if (!emailRegexCheck.test(email)) {
       newErrors.email = 'Please enter a valid email';
     }
 
     if (email !== confirmEmail) {
-      newErrors.confirmEmail = 'Emails do not match';
+      newErrors.confirmEmail =
+        'Please check if your email was entered correctly';
     }
 
-    setErrors(newErrors);
-    if (Object.keys(newErrors).length > 0 || !name || !email) {
-      // handle the error
+    return newErrors;
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const validationErrors = validate();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
       return;
     }
 
     setIsSubmitting(true);
-    const requestParams: PostRequestInvite = { name, email };
+    const { name, email } = formState;
+    if (!name || !email) return;
+    const requestParams: PostRequestInvite = {
+      name,
+      email,
+    };
+
     await submitRequestInvite(requestParams)
-      .then((resp) => {
+      .then(() => {
+        // no operations necessary, as long as API indicated success
         handleSuccess();
-        return resp;
       })
       .catch((e) => {
-        handleError(true, e.message);
+        onSubmitError(e.message);
       })
       .finally(() => {
         setIsSubmitting(false);
       });
   };
 
+  const SubmitButton = () => {
+    return (
+      <Button type="submit" loading={isSubmitting} block>
+        Submit
+      </Button>
+    );
+  };
+
   return (
-    <>
-      <div className="flex flex-col gap-16">
-        <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-16">
+      <form onSubmit={handleSubmit} className="space-y-16">
+        <div className="space-y-4">
           <Input
             placeholder="Full Name"
             fieldName={'name' as keyof ExtendedPostRequestInvite}
@@ -98,10 +130,8 @@ export const UserEmailForm = ({
             error={errors?.confirmEmail}
           />
         </div>
-        <Button onClick={handleSubmit} loading={isSubmitting}>
-          Submit
-        </Button>
-      </div>
-    </>
+        <SubmitButton />
+      </form>
+    </div>
   );
 };

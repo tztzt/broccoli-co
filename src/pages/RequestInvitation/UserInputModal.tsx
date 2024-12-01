@@ -18,16 +18,20 @@ export const UserInputModal = () => {
   const handleClose = () => {
     setInviteModalVisible(false);
   };
-  const handleError = (visible: boolean, message: string) => {
+  const handleError = (message: string) => {
     setToastMessage(message);
-    setToastVisible(visible);
+    setToastVisible(true);
+  };
+  const handleRequestInviteSuccess = () => {
+    setInviteModalVisible(false);
+    setSubmitResultModal(true);
   };
 
   const toast = useMemo(
     () => (
       <Toast
         message={toastMessage}
-        show={toastVisible}
+        visible={toastVisible}
         onClose={() => setToastVisible(false)}
       />
     ),
@@ -43,16 +47,17 @@ export const UserInputModal = () => {
         onClose={handleClose}
         content={
           <UserEmailForm
-            handleSuccess={handleClose}
-            handleError={handleError}
+            onSuccess={handleRequestInviteSuccess}
+            onSubmitError={handleError}
           />
         }
       />
       <Modal
         title="All done!"
         visible={submitResultModal}
-        onClose={() => setSubmitResultModal(false)}
-        content={<SubmitResult />}
+        content={
+          <SubmitResult handleClose={() => setSubmitResultModal(false)} />
+        }
       />
     </>
   );

@@ -1,6 +1,6 @@
 import { PostRequestInvite } from '../types';
 
-enum NetworkResponseCode {
+enum NetworkReponseCode {
   SUCCESS = 200,
   BAD_REQUEST = 400,
 }
@@ -11,17 +11,28 @@ export const submitRequestInvite = async (data: PostRequestInvite) => {
   const api = AWX_ENDPOINT;
   return await fetch(api, {
     method: 'POST',
-    mode: 'no-cors',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   }).then(async (response) => {
-    if (response.ok) return response.json();
-    const { errorMessage } = await response.json();
-    const error = errorMessage ?? `HTTP error! Status: ${response.status}`;
-    throw new Error(error);
+    /**
+     * Handle happy flow
+     */
+    if (response.ok && response.status === NetworkReponseCode.SUCCESS) {
+      return response.json();
+    } else if (response.status === NetworkReponseCode.BAD_REQUEST) {
+      /**
+       * Handle known business errors
+       */
+      const responseBody = await response.json();
+      const error = responseBody?.errorMessage;
+      throw new Error(error);
+    } else {
+      /**
+       * handle all other unexpected errors
+       */
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
   });
 };
-
-//usedemail@airwallex.com
