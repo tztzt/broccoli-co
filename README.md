@@ -1,50 +1,85 @@
-# React + TypeScript + Vite
+# Broccoli & Co
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Broccoli & Co** is a simple website that allows users to request an invitation to learn about an upcoming product release.
 
-Currently, two official plugins are available:
+It is implemented in React with a modern styling approach, using the latest technologies supported by most browsers. It comes packaged with a complete set of unit tests, ready for product with
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technologies Used
 
-## Expanding the ESLint configuration
+- **Vite**: Fast build tool and development server for modern web apps.
+- **TypeScript**: A superset of JavaScript that adds static types for better tooling.
+- **React**: A JavaScript library for building user interfaces.
+- **Tailwind CSS**: Utility-first CSS framework for styling.
+- **Vitest**: Fast test runner for Vite, used for unit and integration tests.
+- **ESLint**: A tool for identifying and fixing code quality issues.
+- **Prettier**: Code formatter to ensure consistent code style.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Features
 
-- Configure the top-level `parserOptions` property like this:
+- User-friendly website to request invitations for an upcoming product release.
+- Fully responsive UI using Tailwind CSS.
+- Near 100% test coverage with Vitest.
+- Simple ESLint and Prettier configuration for clean and consistent code.
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Getting Started
+
+To get started with the project locally, follow these steps:
+
+### Prerequisites
+
+Make sure you have the following installed:
+
+- [Node.js](https://nodejs.org) (v16 or above)
+- [npm](https://www.npmjs.com/get-npm)
+
+### Optional Tools
+
+- [ESLint](vscode:extension/dbaeumer.vscode-eslint)
+- [Prettier](vscode:extension/esbenp.prettier-vscode)
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://https://github.com/tztzt/broccoli-co
+   cd broccoli-co
+   ```
+
+2. Install dependencies
+   ```bash
+   npm install
+   ```
+3. Run the development server. (The browser page is conveniently opened directly at `localhost:5173`)
+
+   ```bash
+   npm run dev
+   ```
+
+## Running Tests
+
+To run the tests:
+
+```bash
+npm run test
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+For a detailed test coverage:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+npm run coverage
 ```
+
+## Developer Experience
+
+This project has also been enhanced with common ESLint and Prettier configurations and plugins to maintain a codebase of high quality and readability.
+
+It is **strongly recommended** to install these tools in your Visual Studio Code
+
+- add to your Visual Studio Code for automatically format on save according to prettier config
+
+```json
+"editor.formatOnSave": true,
+```
+
+The project is also packaged with [@trivago/prettier-plugin-sort-imports](https://github.com/trivago/prettier-plugin-sort-imports) and [prettier-plugin-packagejson](https://www.npmjs.com/package/prettier-plugin-packagejson) to conveniently manage file imports and organise package.json contents.
