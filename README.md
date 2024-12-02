@@ -2,7 +2,9 @@
 
 **Broccoli & Co** is a simple website that allows users to request an invitation to learn about an upcoming product release.
 
-It is implemented in React with a modern styling approach, using the latest technologies supported by most browsers. It comes packaged with a complete set of unit tests, ready for product with
+It is implemented in React with a modern styling approach, using the latest technologies supported by most browsers. It comes packaged with a complete set of unit tests and ready for production.
+
+![alt text](image.png)
 
 ## Technologies Used
 
@@ -42,7 +44,7 @@ Make sure you have the following installed:
 1. Clone the repository:
 
    ```bash
-   git clone https://https://github.com/tztzt/broccoli-co
+   git clone https://github.com/tztzt/broccoli-co
    cd broccoli-co
    ```
 
