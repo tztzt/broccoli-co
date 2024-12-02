@@ -37,7 +37,6 @@ export const Input = ({
     <div>
       <input
         className={defaultInput + color}
-        type={fieldName}
         id={fieldName}
         name={fieldName}
         value={value ?? ''}

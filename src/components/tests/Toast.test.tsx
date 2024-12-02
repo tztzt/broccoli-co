@@ -47,6 +47,7 @@ describe('Toast Component', () => {
     render(
       <Toast message="Test Portal" visible={true} onClose={onCloseMock} />,
     );
+
     const rootPortal = document.getElementById('root-portal');
     expect(rootPortal).toContainElement(screen.getByText('Test Portal'));
   });
