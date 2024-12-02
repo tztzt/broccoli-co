@@ -8,6 +8,6 @@ export const Loading = () => (
     aria-live="polite"
     aria-busy="true"
   >
-    <div className="w-4 h-4 border-4 border-dashed rounded-full animate-spin"></div>
+    <div className="w-4 h-4 border-4 border-black border-dashed rounded-full animate-spin"></div>
   </div>
 );
