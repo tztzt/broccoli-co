@@ -38,7 +38,7 @@ export const Toast = ({
   duration = 3000,
 }: ToastProps) => {
   const root = document.getElementById('root-portal');
-  const displayMessage = message ?? 'An unexpected error occured';
+  const displayMessage = message || 'An unexpected error occured';
 
   const [isAnimating, setIsAnimating] = useState(false);
   const [shouldRender, setShouldRender] = useState(false);
@@ -69,18 +69,17 @@ export const Toast = ({
 
   return ReactDOM.createPortal(
     <div
-      className={`fixed top-0 left-1/2 transform -translate-x-1/2 bg-white py-2 px-4 rounded shadow-md transition-transform duration-200 ${
-        isAnimating
-          ? 'opacity-100 -translate-y-0'
-          : 'opacity-70 -translate-y-12'
-      } z-50`}
+      className={`fixed top-0 left-1/2 
+        flex justify-between items-center gap-4 transform -translate-x-1/2 bg-white py-2 px-4 rounded shadow-md transition-transform duration-200 ${
+          isAnimating
+            ? 'opacity-100 -translate-y-0'
+            : 'opacity-70 -translate-y-12'
+        } z-50`}
     >
-      <div className="flex justify-between items-center gap-4 ">
-        <span>{displayMessage}</span>
-        <IconButton onClick={onClose}>
-          <img src={icon} alt="Close" />
-        </IconButton>
-      </div>
+      <span>{displayMessage}</span>
+      <IconButton onClick={onClose}>
+        <img src={icon} alt="Close" />
+      </IconButton>
     </div>,
     root,
   );

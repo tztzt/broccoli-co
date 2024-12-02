@@ -29,7 +29,7 @@ export const Button = ({
   loading,
   type = 'button',
   block,
-}: ButtonProps) => {
+}: ButtonProps): JSX.Element => {
   const basicButton = `flex justify-center items-center gap-4 py-2 px-4 rounded-md ${block ? 'w-full' : 'w-fit'}`;
   const color = 'bg-white text-gray-700 border-gray-700 border-2';
   const cursor = loading ? 'cursor-wait' : '';

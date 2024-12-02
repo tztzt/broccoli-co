@@ -1,10 +1,30 @@
+import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import { Footer } from '../Footer';
 
-it('should have company name', () => {
-  const companyName = 'ABC Co.';
-  render(<Footer companyName={companyName} />);
-  const text = screen.getByText('© 2024 ABC Co. All rights reserved.');
-  expect(text).toBeVisible();
+describe('Footer Component', () => {
+  it('renders the footer component', () => {
+    render(<Footer companyName="Test Company" />);
+    const footerElement = screen.getByRole('contentinfo'); // footer has role="contentinfo"
+    expect(footerElement).toBeInTheDocument();
+  });
+
+  it('displays the correct company name', () => {
+    render(<Footer companyName="Test Company" />);
+    const companyNameText = screen.getByText(
+      /© 2024 Test Company All rights reserved./i,
+    );
+    expect(companyNameText).toBeInTheDocument();
+  });
+
+  it('renders copyright text with proper format', () => {
+    render(<Footer companyName="Test Company" />);
+    const copyrightText = screen.getByText(
+      /© 2024 Test Company All rights reserved./i,
+    );
+    expect(copyrightText).toHaveTextContent(
+      '© 2024 Test Company All rights reserved.',
+    );
+  });
 });

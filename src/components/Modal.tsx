@@ -16,7 +16,7 @@ interface ModalProps {
 }
 
 /**
- * A reusable modal component that displays a dialog with a title, content,
+ * A reusable modal component that displays a popup dialog with a title, content,
  * and an optional close button. The modal's visibility is controlled via the `visible` prop.
  * The modal also includes smooth fade-in and fade-out animations during visibility changes.
  *
@@ -69,6 +69,7 @@ export const Modal = ({ title, visible, onClose, content }: ModalProps) => {
           `}
       >
         <div
+          role="dialog"
           className={`bg-white w-full max-w-lg mx-auto rounded-lg shadow-lg p-4 text-center duration-200 ${
             isAnimating ? 'opacity-100 scale-100' : 'opacity-0 scale-95'
           }`}

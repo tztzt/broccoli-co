@@ -32,7 +32,10 @@ export const UserInputModal = () => {
       <Toast
         message={toastMessage}
         visible={toastVisible}
-        onClose={() => setToastVisible(false)}
+        onClose={() => {
+          setToastMessage('');
+          setToastVisible(false);
+        }}
       />
     ),
     [toastMessage, toastVisible],
