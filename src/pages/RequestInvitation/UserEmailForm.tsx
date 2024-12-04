@@ -23,7 +23,7 @@ export const UserEmailForm = ({
   const [errors, setErrors] = useState<PartialInputFormValue>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const updateForm = (
+  const handleChange = (
     value: string,
     field: keyof ExtendedPostRequestInvite,
   ) => {
@@ -108,25 +108,22 @@ export const UserEmailForm = ({
     <div className="flex flex-col gap-16">
       <form onSubmit={handleSubmit} className="space-y-16">
         <div className="space-y-4">
-          <Input
+          <Input<keyof ExtendedPostRequestInvite>
             placeholder="Full Name"
             fieldName={'name' as keyof ExtendedPostRequestInvite}
-            value={formState?.name}
-            onChange={(value) => updateForm(value, 'name')}
+            onChange={handleChange}
             error={errors?.name}
           />
-          <Input
+          <Input<keyof ExtendedPostRequestInvite>
             placeholder="Email"
             fieldName={'email' as keyof ExtendedPostRequestInvite}
-            value={formState?.email}
-            onChange={(value) => updateForm(value, 'email')}
+            onChange={handleChange}
             error={errors?.email}
           />
-          <Input
+          <Input<keyof ExtendedPostRequestInvite>
             placeholder="Confirm email"
             fieldName={'confirmEmail' as keyof ExtendedPostRequestInvite}
-            value={formState?.confirmEmail}
-            onChange={(value) => updateForm(value, 'confirmEmail')}
+            onChange={handleChange}
             error={errors?.confirmEmail}
           />
         </div>
